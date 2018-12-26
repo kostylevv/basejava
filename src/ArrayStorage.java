@@ -3,6 +3,11 @@
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    private  int size = 0;
+
+    int size() {
+        return size;
+    }
 
     /**
      * Clear storage
@@ -15,18 +20,6 @@ public class ArrayStorage {
     }
 
     /**
-     * Check if storage contains element with provided uuid
-     * @param uuid to search for
-     * @return true if exists, false otherwise
-     */
-    boolean contains(String uuid) {
-        if (uuid != null) {
-            if (getPos(uuid) >= 0) return true;
-        }
-        return false;
-    }
-
-    /**
      * Save Resume to storage. Resume will be stored only
      * if it is not exist in storage and storage space is available.
      * @param r Resume object to save
@@ -35,7 +28,7 @@ public class ArrayStorage {
      */
     void save(Resume r) throws IllegalArgumentException, IndexOutOfBoundsException{
         if (r != null) {
-           if (size + 1 < 10000) {
+           if (size  <= 10000) {
                if (!contains(r.uuid)) {
                    storage[size++] = r;
                } else {
@@ -45,6 +38,18 @@ public class ArrayStorage {
                throw new IndexOutOfBoundsException("DB overflow (>10000)");
            }
         }
+    }
+
+    /**
+     * Check if storage contains element with provided uuid
+     * @param uuid to search for
+     * @return true if exists, false otherwise
+     */
+    boolean contains(String uuid) {
+        if (getPos(uuid) >= 0) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -69,11 +74,11 @@ public class ArrayStorage {
      * @return Resume from storage if it exists, null otherwise
      */
     Resume get(String uuid) {
-        if (uuid != null) {
-            int pos = getPos(uuid);
-            if (pos >= 0) return storage[pos];
-        }
-        return null;
+       int pos = getPos(uuid);
+       if (pos >= 0) {
+           return storage[pos];
+       }
+       return null;
     }
 
     /**
@@ -81,11 +86,10 @@ public class ArrayStorage {
      * @param uuid of Resume to delete
      */
     void delete(String uuid) {
-        if (uuid != null) {
-            int pos = getPos(uuid);
-            if (pos >= 0) shift(pos);
+        int pos = getPos(uuid);
+        if (pos >= 0) {
+            shift(pos);
         }
-
     }
 
     /**
@@ -109,9 +113,4 @@ public class ArrayStorage {
         System.arraycopy(storage, 0, result, 0, size);
         return result;
     }
-
-    int size() {
-        return size;
-    }
-    private  int size = 0;
 }
