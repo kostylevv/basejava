@@ -5,9 +5,12 @@ public class Resume {
 
     // Unique identifier
     String uuid;
+    String name;
 
     @Override
     public String toString() {
-        return uuid;
+        return uuid + "(name = " + name + ")";
     }
+
+
 }

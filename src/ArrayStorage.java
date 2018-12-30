@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
@@ -9,13 +11,29 @@ public class ArrayStorage {
         return size;
     }
 
+    void update(Resume r) {
+        if (r != null && contains(r.uuid)) {
+            int pos = getPos(r.uuid);
+            storage[pos] = r;
+        } else {
+            System.out.println("DB does not contain Resume: " + r.uuid);
+        }
+    }
+
+    void update(String uuid) {
+        Resume r = get(uuid);
+        if (!contains(uuid)) {
+            System.out.println("DB does not contain Resume: " + uuid);
+        } else {
+            update(r);
+        }
+    }
+
     /**
      * Clear storage
      */
     void clear() {
-        for (int i = 0; i < size; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, 0,size,null);
         size = 0;
     }
 
@@ -23,19 +41,17 @@ public class ArrayStorage {
      * Save Resume to storage. Resume will be stored only
      * if it is not exist in storage and storage space is available.
      * @param r Resume object to save
-     * @throws IllegalArgumentException if Storage already contains Resume
-     * @throws IndexOutOfBoundsException if it is not enough storage space
      */
-    void save(Resume r) throws IllegalArgumentException, IndexOutOfBoundsException{
+    void save(Resume r) {
         if (r != null) {
            if (size  <= 10000) {
                if (!contains(r.uuid)) {
                    storage[size++] = r;
                } else {
-                   throw new IllegalArgumentException("DB already contains Resume: " + r.toString());
+                   System.out.println("DB already contains Resume: " + r.toString());
                }
            } else {
-               throw new IndexOutOfBoundsException("DB overflow (>10000)");
+               System.out.println("DB overflow (>10000)");
            }
         }
     }
@@ -46,10 +62,7 @@ public class ArrayStorage {
      * @return true if exists, false otherwise
      */
     boolean contains(String uuid) {
-        if (getPos(uuid) >= 0) {
-            return true;
-        }
-        return false;
+        return getPos(uuid) >= 0;
     }
 
     /**
@@ -78,6 +91,7 @@ public class ArrayStorage {
        if (pos >= 0) {
            return storage[pos];
        }
+       System.out.println("DB does not contain Resume: " + uuid);
        return null;
     }
 
@@ -89,6 +103,8 @@ public class ArrayStorage {
         int pos = getPos(uuid);
         if (pos >= 0) {
             shift(pos);
+        } else {
+            System.out.println("DB does not contain Resume: " + uuid);
         }
     }
 
