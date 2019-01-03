@@ -3,13 +3,20 @@
  */
 public class Resume {
 
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
     // Unique identifier
     String uuid;
-    String name;
 
     @Override
     public String toString() {
-        return uuid + "(name = " + name + ")";
+        return uuid;
     }
 
 

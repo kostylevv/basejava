@@ -30,10 +30,17 @@ public class MainTestArrayStorage {
         printAll();
         ARRAY_STORAGE.save(r4);
         printAll();
-        r4.name = "updated name";
         ARRAY_STORAGE.update(r4);
         printAll();
+        ARRAY_STORAGE.delete(r4.uuid);
+        printAll();
         ARRAY_STORAGE.update(r5);
+        printAll();
+        ARRAY_STORAGE.update(r2);
+        printAll();
+        ARRAY_STORAGE.save(r5);
+        printAll();
+        ARRAY_STORAGE.delete(r3.uuid);
         printAll();
         ARRAY_STORAGE.clear();
         printAll();
