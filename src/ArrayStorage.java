@@ -32,7 +32,7 @@ public class ArrayStorage {
 
     void save(Resume resume) {
         if (resume != null) {
-            if (size <= MAX_STORAGE_SIZE) {
+            if (size < MAX_STORAGE_SIZE) {
                 int index = getIndex(resume.getUuid());
                 if (index == -1) {
                     storage[size++] = resume;
@@ -57,12 +57,10 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        int pos = getIndex(uuid);
-        if (pos >= 0) {
-            storage[pos] = null;
-            System.arraycopy(storage, 0, storage, 0, pos);
-            System.arraycopy(storage, pos + 1, storage, pos, size - 1 - pos);
-            size = size - 1;
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            storage[index] = storage[size - 1];
+            size--;
         } else {
             System.out.println("DB does not contain Resume: " + uuid);
         }
