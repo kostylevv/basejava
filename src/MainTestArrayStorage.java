@@ -16,8 +16,11 @@ public class MainTestArrayStorage {
         Resume r5 = new Resume();
         r5.setUuid("uuid5");
 
+        System.out.println("Add r1");
         ARRAY_STORAGE.save(r1);
+        System.out.println("Add r2");
         ARRAY_STORAGE.save(r2);
+        System.out.println("Add r3");
         ARRAY_STORAGE.save(r3);
 
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
@@ -26,6 +29,7 @@ public class MainTestArrayStorage {
         System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
 
         printAll();
+
         ARRAY_STORAGE.delete(r1.getUuid());
         printAll();
         ARRAY_STORAGE.save(r4);
@@ -55,7 +59,8 @@ public class MainTestArrayStorage {
     static void printAll() {
         System.out.println("\nGet All");
         for (Resume r : ARRAY_STORAGE.getAll()) {
-            System.out.println(r);
+            System.out.print(r + ";");
         }
+        System.out.println();
     }
 }

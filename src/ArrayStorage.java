@@ -60,6 +60,7 @@ public class ArrayStorage {
         int index = getIndex(uuid);
         if (index >= 0) {
             storage[index] = storage[size - 1];
+            storage[size - 1] = null;
             size--;
         } else {
             System.out.println("DB does not contain Resume: " + uuid);
