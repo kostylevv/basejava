@@ -22,7 +22,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         int index = getIndex(uuid);
         if (index >= 0) {
             System.arraycopy(storage, index + 1, storage, index, size - index - 1);
-            storage[size] = null;
+            storage[size - 1] = null;
             size--;
         } else {
             System.out.println("DB does not contain Resume with uuid: " + uuid);

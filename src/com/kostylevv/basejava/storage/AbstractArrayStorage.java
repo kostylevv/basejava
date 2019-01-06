@@ -7,6 +7,14 @@ import java.util.Arrays;
 public abstract class AbstractArrayStorage implements Storage {
     private static final int MAX_STORAGE_SIZE = 10_000;
 
+    public int getMaxStorageSize() {
+        return MAX_STORAGE_SIZE;
+    }
+
+    public Resume[] getStorage() {
+        return storage;
+    }
+
     protected Resume[] storage = new Resume[MAX_STORAGE_SIZE];
     int size = 0;
 

@@ -1,6 +1,7 @@
 package com.kostylevv.basejava;
 
 import com.kostylevv.basejava.model.Resume;
+import com.kostylevv.basejava.storage.AbstractArrayStorage;
 import com.kostylevv.basejava.storage.ArrayStorage;
 import com.kostylevv.basejava.storage.SortedArrayStorage;
 import com.kostylevv.basejava.storage.Storage;
@@ -123,8 +124,8 @@ public class MainTestArrayStorage {
     private static void printOut() {
         printAll(SORTED_STORAGE);
         printAll(ARRAY_STORAGE);
-        System.out.println("Sorted size = " + SORTED_STORAGE.size());
-        System.out.println("Unsorted size = " + ARRAY_STORAGE.size());
+        System.out.println("Sorted size = " + SORTED_STORAGE.size() + "(realSize =" + realSize((AbstractArrayStorage) SORTED_STORAGE) + ")");
+        System.out.println("Unsorted size = " + ARRAY_STORAGE.size() + "(realSize =" + realSize((AbstractArrayStorage) ARRAY_STORAGE) + ")");
         System.out.println("-----------------------------------------------------------");
     }
 
@@ -138,5 +139,20 @@ public class MainTestArrayStorage {
         } else {
             System.out.println("Storage is empty");
         }
+    }
+
+    /**
+     * Count all non-null elements in Storage
+     *
+     * @param storage
+     */
+    private static int realSize(AbstractArrayStorage storage) {
+        int result = 0;
+        for (int i = 0; i < storage.getMaxStorageSize(); i++) {
+            if (storage.getStorage()[i] != null) {
+                result++;
+            }
+        }
+        return result;
     }
 }
