@@ -10,19 +10,23 @@ public abstract class AbstractArrayStorage implements Storage {
     protected int size = 0;
     protected Resume[] storage = new Resume[MAX_STORAGE_SIZE];
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
+    @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
+    @Override
     public void save(Resume resume) {
         Objects.requireNonNull(resume, "Resume cannot be null in AbstractArrayStorage.save");
         if (size < MAX_STORAGE_SIZE) {
@@ -37,6 +41,7 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
+    @Override
     public Resume get(String uuid) {
         Objects.requireNonNull(uuid, "UUID cannot be null in method AbstractArrayStorage.get");
         int index = getIndex(uuid);
@@ -47,6 +52,7 @@ public abstract class AbstractArrayStorage implements Storage {
         return storage[index];
     }
 
+    @Override
     public void update(Resume resume) {
         Objects.requireNonNull(resume, "Resume cannot be null in method AbstractArrayStorage.update");
         int index = getIndex(resume.getUuid());
@@ -57,26 +63,23 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
+    @Override
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index >= 0) {
-            remove(storage[index], index);
+            remove(index);
+            storage[size - 1] = null;
+            size--;
         } else {
             System.out.println("DB does not contain Resume with uuid: " + uuid);
         }
-    }
-
-    public int getMaxStorageSize() {
-        return MAX_STORAGE_SIZE;
-    }
-
-    public Resume[] getStorage() {
-        return storage;
     }
 
     protected abstract int getIndex(String uuid);
 
     protected abstract void store(Resume resume, int index);
 
-    protected abstract void remove(Resume resume, int index);
+    protected void remove(int index) {
+        storage[index] = storage[size - 1];
+    }
 }
