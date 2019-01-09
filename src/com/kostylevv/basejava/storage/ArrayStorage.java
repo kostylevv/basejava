@@ -21,6 +21,11 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void store(Resume resume, int index) {
-        storage[size++] = resume;
+        storage[size] = resume;
+    }
+
+    @Override
+    protected void remove(int index) {
+        storage[index] = storage[size - 1];
     }
 }

@@ -33,6 +33,7 @@ public abstract class AbstractArrayStorage implements Storage {
             int index = getIndex(resume.getUuid());
             if (index < 0) {
                 store(resume, index);
+                size++;
             } else {
                 System.out.println("DB already contains Resume with uuid " + resume.getUuid());
             }
@@ -79,7 +80,5 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract void store(Resume resume, int index);
 
-    protected void remove(int index) {
-        storage[index] = storage[size - 1];
-    }
+    protected abstract void remove(int index);
 }
