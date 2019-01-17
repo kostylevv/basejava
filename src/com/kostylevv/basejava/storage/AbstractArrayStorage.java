@@ -1,14 +1,17 @@
 package com.kostylevv.basejava.storage;
 
+import com.kostylevv.basejava.exception.ExistStorageException;
+import com.kostylevv.basejava.exception.NotExistStorageException;
+import com.kostylevv.basejava.exception.StorageException;
 import com.kostylevv.basejava.model.Resume;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 public abstract class AbstractArrayStorage implements Storage {
-    protected static final int MAX_STORAGE_SIZE = 10_000;
+    protected static final int CAPACITY = 10_000;
     protected int size = 0;
-    protected Resume[] storage = new Resume[MAX_STORAGE_SIZE];
+    protected Resume[] storage = new Resume[CAPACITY];
 
     @Override
     public int size() {
@@ -29,16 +32,16 @@ public abstract class AbstractArrayStorage implements Storage {
     @Override
     public void save(Resume resume) {
         Objects.requireNonNull(resume, "Resume cannot be null in AbstractArrayStorage.save");
-        if (size < MAX_STORAGE_SIZE) {
+        if (size < CAPACITY) {
             int index = getIndex(resume.getUuid());
             if (index < 0) {
                 store(resume, index);
                 size++;
             } else {
-                System.out.println("DB already contains Resume with uuid " + resume.getUuid());
+                throw new ExistStorageException(resume.getUuid());
             }
         } else {
-            System.out.println("DB overflow ( > " + MAX_STORAGE_SIZE + ")");
+            throw new StorageException("Storage overflow", resume.getUuid());
         }
     }
 
@@ -47,8 +50,7 @@ public abstract class AbstractArrayStorage implements Storage {
         Objects.requireNonNull(uuid, "UUID cannot be null in method AbstractArrayStorage.get");
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("DB does not contain Resume with uuid " + uuid);
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
@@ -60,7 +62,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             storage[index] = resume;
         } else {
-            System.out.println("DB does not contain Resume with uuid " + resume.getUuid());
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
@@ -72,7 +74,7 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[size - 1] = null;
             size--;
         } else {
-            System.out.println("DB does not contain Resume with uuid: " + uuid);
+            throw new NotExistStorageException(uuid);
         }
     }
 

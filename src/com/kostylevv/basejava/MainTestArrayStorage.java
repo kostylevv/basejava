@@ -17,37 +17,32 @@ public class MainTestArrayStorage {
         System.out.println("Testing Sorted (SortedArrayStorage) and Unsorted storage (ArrayStorage)");
         System.out.println("Create 10 Resumes with uuid form L to B, add to both storages");
         for (int i = 10; i >= 1; i--) {
-            Resume resume = new Resume();
-            resume.setUuid(ALPHABET[i]);
+            Resume resume = new Resume(ALPHABET[i]);
             SORTED_STORAGE.save(resume);
             ARRAY_STORAGE.save(resume);
         }
         printOut();
 
         System.out.println("Add Resume with uuid N");
-        Resume resumeN = new Resume();
-        resumeN.setUuid(ALPHABET[12]);
+        Resume resumeN = new Resume(ALPHABET[12]);
         SORTED_STORAGE.save(resumeN);
         ARRAY_STORAGE.save(resumeN);
         printOut();
 
         System.out.println("Add Resume with uuid A");
-        Resume resumeA = new Resume();
-        resumeA.setUuid(ALPHABET[0]);
+        Resume resumeA = new Resume(ALPHABET[0]);
         SORTED_STORAGE.save(resumeA);
         ARRAY_STORAGE.save(resumeA);
         printOut();
 
         System.out.println("Add Resume with uuid B (which is already in storage)");
-        Resume resumeB = new Resume();
-        resumeB.setUuid(ALPHABET[1]);
+        Resume resumeB = new Resume(ALPHABET[1]);
         SORTED_STORAGE.save(resumeB);
         ARRAY_STORAGE.save(resumeB);
         printOut();
 
         System.out.println("Add Resume with uuid M");
-        Resume resumeM = new Resume();
-        resumeM.setUuid(ALPHABET[11]);
+        Resume resumeM = new Resume(ALPHABET[11]);
         SORTED_STORAGE.save(resumeM);
         ARRAY_STORAGE.save(resumeM);
         printOut();
@@ -89,8 +84,7 @@ public class MainTestArrayStorage {
 
         System.out.println("Try to add more than 10k elements");
         for (int i = 0; i <= 10000; i++) {
-            Resume resume = new Resume();
-            resume.setUuid(i + "x");
+            Resume resume = new Resume(i + "x");
             SORTED_STORAGE.save(resume);
             ARRAY_STORAGE.save(resume);
         }
@@ -103,8 +97,7 @@ public class MainTestArrayStorage {
 
         System.out.println("Try to add exactly 10k elements");
         for (int i = 0; i < 10000; i++) {
-            Resume resume = new Resume();
-            resume.setUuid(i + "x");
+            Resume resume = new Resume(i + "x");
             SORTED_STORAGE.save(resume);
             ARRAY_STORAGE.save(resume);
         }
@@ -123,14 +116,12 @@ public class MainTestArrayStorage {
         printOut();
 
         System.out.println("Try to add to Sorted only");
-        Resume y = new Resume();
-        y.setUuid(ALPHABET[14]);
+        Resume y = new Resume(ALPHABET[14]);
         SORTED_STORAGE.save(y);
         printOut();
 
         System.out.println("Try to add to Unsorted only");
-        Resume z = new Resume();
-        z.setUuid(ALPHABET[15]);
+        Resume z = new Resume(ALPHABET[15]);
         ARRAY_STORAGE.save(z);
         printOut();
     }

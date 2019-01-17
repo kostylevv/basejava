@@ -1,18 +1,20 @@
 package com.kostylevv.basejava.model;
 
+import java.util.UUID;
+
 /**
  * Resume class
  */
 public class Resume implements Comparable<Resume> {
     // Unique identifier
-    private String uuid;
+    private final String uuid;
+
+    public Resume() {
+        this(UUID.randomUUID().toString());
+    }
 
     public String getUuid() {
         return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     @Override
@@ -36,5 +38,9 @@ public class Resume implements Comparable<Resume> {
     @Override
     public int compareTo(Resume o) {
         return uuid.compareTo(o.uuid);
+    }
+
+    public Resume(String uuid) {
+        this.uuid = uuid;
     }
 }
