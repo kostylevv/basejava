@@ -44,16 +44,17 @@ public abstract class AbstractArrayStorageTest {
         Assert.assertEquals(RESUME1, storage.get(RESUME1.getUuid()));
     }
 
-    @Test
-    public void getAll() {
-        Resume[] expected = {RESUME1, RESUME2, RESUME3};
-        Assert.assertArrayEquals(expected, storage.getAll());
-        Assert.assertEquals(3, storage.getAll().length);
-    }
-
     @Test(expected = NotExistStorageException.class)
     public void getNotExist() throws Exception {
         storage.get(DUMMY_ID);
+    }
+
+    @Test
+    public void getAll() {
+        Resume[] expected = {RESUME1, RESUME2, RESUME3};
+        Resume[] actual = storage.getAll();
+        Assert.assertArrayEquals(expected, actual);
+        Assert.assertEquals(3, actual.length);
     }
 
     @Test
@@ -81,6 +82,19 @@ public abstract class AbstractArrayStorageTest {
         storage.save(RESUME2);
     }
 
+    @Test(expected = StorageException.class)
+    public void saveOverflow() {
+        storage.clear();
+        try {
+            for (int i = 0; i < AbstractArrayStorage.CAPACITY; i++) {
+                storage.save(new Resume(i + "x"));
+            }
+        } catch (Exception e) {
+            Assert.fail(e.getMessage());
+        }
+        storage.save(new Resume("x"));
+    }
+
     @Test(expected = NotExistStorageException.class)
     public void delete() {
         storage.delete(UUID_1);
@@ -97,18 +111,5 @@ public abstract class AbstractArrayStorageTest {
     public void clear() {
         storage.clear();
         Assert.assertEquals(0, storage.size());
-    }
-
-    @Test(expected = StorageException.class)
-    public void saveOverflow() {
-        storage.clear();
-        try {
-            for (int i = 0; i < AbstractArrayStorage.CAPACITY; i++) {
-                storage.save(new Resume(i + "x"));
-            }
-        } catch (Exception e) {
-            Assert.fail(e.getMessage());
-        }
-        storage.save(new Resume("x"));
     }
 }
